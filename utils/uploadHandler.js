@@ -1,10 +1,16 @@
 let multer = require('multer')
 let path = require('path')
+let fs = require('fs')
 
 //luu o dau, luu ten la gi? file->req->save->xu ly
+const uploadDir = path.join(__dirname, '../uploads')
+if (!fs.existsSync(uploadDir)) {
+    fs.mkdirSync(uploadDir, { recursive: true })
+}
+
 let storageSetting = multer.diskStorage({//path->filename
     destination: function (req, file, cb) {
-        cb(null, "uploads/")
+        cb(null, uploadDir)
     },
     filename: function (req, file, cb) {
         let ext = path.extname(file.originalname)
